@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pythons 笔记
+title: Pythons 入门
 category: 技术
 tags: Python3
 keywords: Python3基础
@@ -65,3 +65,4 @@ def primes():
 ```CPP
 sort  在原列表排序
 sorted 产生新的排序列表
+```
