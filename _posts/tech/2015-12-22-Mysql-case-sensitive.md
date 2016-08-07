@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mysql case sensitive analysis
+title: Mysql大小写敏感分析
 category: 技术
 tags: Mysql case sensitive analysis
 keywords: Mysql case sensitive analysis
