@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pythons 入门
+title: Python基础
 category: 技术
 tags: Python3
 keywords: Python3基础
