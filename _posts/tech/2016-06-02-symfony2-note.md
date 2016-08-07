@@ -8,7 +8,7 @@ keywords: Symfony2, 笔记
 
 
 
-```
+```CPP
 # Clear cache
 sudo php app/console cache:clear --env=prod
 sudo php app/console cache:clear --env=dev
