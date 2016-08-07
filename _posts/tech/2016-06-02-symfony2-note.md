@@ -1,3 +1,13 @@
+---
+layout: post
+title: Symfony2笔记
+category: 技术
+tags: Symfony2
+keywords: Symfony2, 笔记
+---
+
+
+
 ```
 # Clear cache
 sudo php app/console cache:clear --env=prod
