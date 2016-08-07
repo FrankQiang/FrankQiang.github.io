@@ -8,26 +8,166 @@ keywords: Python3  Advanced
 
 深入理解Python3。
 
-### 1.1 模块
+### 1. 示例
 
-在Python中将.py的文件视为一个模块(Module), 为避免模块相同， 通过包(Package)来组织模块. 包下面必须有`__init__.py`文件. `__init__.py`本身是一个模块, 且模块名就是包名.
+这个示例有两个文件
+```
+# sub.py
 
-### 1.2编译
+def info():
+    print("I'm a sub module")
 
-执行python3 test.py, 将会启动Python的解释器，然后将test.py编译成一个字节码对象PyCodeObject. 在Python3的世界中，一切都是对象.
+```
 
-在运行期间,编译结果也就是PyCodeObject对象,只会存在内存中,当这个模块执行完后, 会把编译结果保存到pyc文件中,下次就不用编译了,直接加载到内存中,pyc只是PyCodeObject对象在硬盘的表现形式.同级目录的pyc文件都存放在`__pycache__`文件夹下.
+```
+# main.py
 
-### 1.3pyc文件
+import sub
 
-一个pyc文件包含三部分信息,分别是Python的magic number, pyc文件创建的时间信息,和PyCodeObject对象.
+print("I'm the main processor")
 
-magic number是Python定义的一个整数值.一般来说, 不同版本的Python都会定义不同的magic number,这个值是来保证Python的兼容性的.比如低版本编译的pyc文件不能让高版本的Python程序来执行.只要检查magic number就可以了.
+if __name__ == '__main__':
+    sub.info()
 
-pyc文件创建的时间信息,用来对比源文件最后修改的时间,如果晚于源文件修改时间,将重新编译新的pyc文件.
+```
 
-### 1.4字Python虚拟机
+执行main.py程序
+```
+python3 main.py
 
-test.py编译后,接下来就由Python虚拟机来执行字节码指令.Python虚拟机会从编译的PyCodeObject对象中依次读入每一条字节码指令,并在当前的上下文环境中执行字节码指令.
+```
 
-### 1.5绝对引入与相对引入
+输出结果
+
+```
+I'm the main processor
+I'm a sub module
+```
+
+### 2. 运行原理
+
+### 2.1 模块
+
+在Python中将sub.py文件视为一个模块(Module)， 为避免模块相同， 可以通过包(Package)来组织模块. 包下面必须有`__init__.py`文件. `__init__.py`本身是一个模块， 且模块名就是包名.这里main.py作为top-level脚本.下面会讲到。
+
+### 2.2编译
+
+执行python3 main.py， 将会启动Python的解释器，然后将main.py编译成一个字节码对象PyCodeObject。 在Python3的世界中，一切都是对象。
+
+在运行期间，编译结果也就是PyCodeObject对象，只会存在内存中，当这个模块执行完后， 会把编译结果保存到pyc文件中，下次就不用编译了，直接加载到内存中，pyc只是PyCodeObject对象在硬盘的表现形式。同级目录的pyc文件都存放在`__pycache__`文件夹下。
+
+#### 注意:
+Python只会对那些以后可能继续被使用和载入的模块才会生成pyc文件。Python认为使用了import指令的模块，属于这种类型.而main.py只是临时用一次.所以在`__pycache__`中只有sub模块的pyc文件。
+
+### 2.3pyc文件
+
+一个pyc文件包含三部分信息，分别是Python的magic number， pyc文件创建的时间信息，和PyCodeObject对象。
+
+magic number是Python定义的一个整数值.一般来说， 不同版本的Python都会定义不同的magic number，这个值是来保证Python的兼容性的.比如低版本编译的pyc文件不能让高版本的Python程序来执行。只要检查magic number就可以了。
+
+pyc文件创建的时间信息，用来对比源文件最后修改的时间，如果晚于源文件修改时间，将重新编译新的pyc文件。
+
+### 2.4Python虚拟机
+
+main.py编译后，接下来就由Python虚拟机来执行字节码指令。Python虚拟机会从编译的PyCodeObject对象中依次读入每一条字节码指令，并在当前的上下文环境中执行字节码指令。
+
+### 2.5绝对引入与相对引入
+
+直接运行`python main.py`
+
+#### 绝对引入的使用
+
+    from pkg import moduleX
+    from pkg.subpkg import moduleY
+
+    需要注意的是，需要从包的顶级目录开始依次写下。
+
+#### 相对引入的使用
+
+    from .moduleX import num
+    from ..moduleX import num
+    from ...moduleX import num
+
+   一个`.`代表当前目录， 每多一个`.`就代表指向上一层目录。同时每个目录应该是一个包。
+
+[引入原理](https://laike9m.com/blog/pythonxiang-dui-dao-ru-ji-zhi-xiang-jie,60/)
+
+[http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912](http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912)
+
+
+### 3异常
+
+除了多个else，和其它语言没什么区别。
+```
+def test(n):
+    try:
+        if n % 2:
+            raise Exception("Error message!")
+    except Exception as ex:
+        print(ex)
+    else:
+        print("Error")
+    finally:
+        print("Finally")
+```
+关键字raise抛出异常，else只在没有异常发生时执行。无论如何finally都会执行。
+
+可以有多个except分支捕获不同类型的异常。
+```
+def test(n):
+    try:
+        if n == 0:
+            raise NameError()
+        if n == 1:
+            raise KeyError()
+        if n == 2:
+            raise IndexError()
+        else:
+            raise Exception()
+    except (NameError, KeyError) as ex:  #  可以同时捕获不同类型的异常
+        print(type(ex))
+    except IndexError as ex:             # 捕获具体类型异常
+        print("IndexError")
+    except:                              # 捕获任意类型异常
+        print("Exception")
+```
+
+支持在except中重新抛出异常
+```
+try:
+    try:
+        raise Exception("Exception")
+    except:
+        print("Catch")
+        raise                           # 原样抛出异常
+except:
+    print("Finally catch")
+```
+
+如果需要，可用sys.exc_info()获取调用堆栈上的最后异常信息。
+```
+def test():
+    try:
+        raise KeyError("Key error")
+    except:
+        exc_type, exc_value, traceback = sys.exc_info()
+        sys.excepthook(exc_type, exc_value, traceback) # 显示异常信息
+```
+
+warnings
+```
+def test():
+    warnings.warn("hi")  # 默认只显示警告信息，不中断执行。
+    print("test")
+```
+### 3.1assert
+
+```
+def test(n):
+    assert n > 0, "n必须大于0"  # 错误信息是可选的
+    print(n)
+```
+当条件不符时，抛出AssertionError错误。assert受只读__debug__控制，可以在启动时添加"-O"参数使其失效。
+```
+python3 -O test.py
+```
