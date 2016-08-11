@@ -112,3 +112,118 @@ d = {'a': 1, 'b': 2}
 >>> d
 {'b': 2, 'a': 1, 'c': 3}
 ```
+
+### 6 字典的组装
+```CPP
+>>> l1 = ['a', 'b', 'c']
+>>> l2 = [1, 2, 3]
+>>> dict(zip(l1, l2))
+{'c': 3, 'b': 2, 'a': 1}
+```
+
+### 7 Python中的True值
+
+对于自己声明的class，如果你想明确地指定它的实例是True或False，你可以自己实现class的`__nonzero__`(Python2)`__bool__`(Python3)或`__len__`方法。
+
+当你的class是一个container时，你可以实现`__len__`方法。
+
+```CPP
+class Test(object):
+
+    def __init__(self, data):
+        self.data = data
+
+    def __len__(self):
+        return len(self.data)
+```
+
+如果你的class不是container，你可以实现`__bool__`方法。
+```CPP
+class Test1(object):
+
+    def __init__(self, value):
+        self.value = value
+
+    def __bool__(self):
+        return bool(self.value)
+```
+
+### 8 `enumerate`索引和元素
+
+在遍历列表的时候，可以通过enumerate方法来获取遍历时的index。
+
+ enumerate方法是惰性方法，所以它只会在需要的时候生成一项。
+
+```CPP
+>>> l1 = ['a', 'b', 'c']
+>>> for (index, value) in enumerate(l1):
+...     print(index, value)
+...
+0 a
+1 b
+2 c
+
+>>> e = enumerate(l1)
+>>> e.__next__()
+(0, 'a')
+```
+
+### 9 字符串格式化`format`
+
+```CPP
+>>> name = "John"
+>>> "I'm {0}".format(name)
+"I'm John"
+>>> "I'm {name}".format(name=name)
+"I'm John"
+
+>>> names = ["John", "Tom"]
+>>> "I'm {0[0]}".format(names)
+"I'm John"
+
+# ^、<、>分别是居中、左对齐、右对齐，后面带宽度
+# :号后面带填充的字符，只能是一个字符，不指定的话默认是用空格填充
+>>> num = 3
+>>> "{0:0^5}".format(num)
+'00300'
+>>> "{0:0<5}".format(num)
+'30000'
+>>> "{0:0>5}".format(num)
+'00003'
+
+>>> '{:,}'.format(1234567890)
+'1,234,567,890'
+```
+
+### 10 排序
+sort改变原list，sorted不改变原list，同时返回新list。
+```CPP
+>>> l1 = ['c', 'a', 'b']
+>>> l1.sort()
+>>> l1
+['a', 'b', 'c']
+>>> l2 = ['c', 'b', 'a']
+>>> sorted(l2)
+['a', 'b', 'c']
+>>> l2
+['c', 'b', 'a']
+
+这里通过key完成更复杂的排序，其原理为，通过key进行排序，原list根据排序结果进行一一对应，为最终排序结果。
+>>> l1 = ["John", "Tom", "jack"]
+>>> l1.sort(key=str.lower)
+>>> l1
+['jack', 'John', 'Tom']
+```
+
+### 11 获取脚本参数
+```CPP
+import sys
+
+print(sys.argv[0])
+print(sys.argv[1])
+
+# 脚本名：    sys.argv[0]
+# 参数1：     sys.argv[1]
+# 参数2：     sys.argv[2]
+# ...
+```
