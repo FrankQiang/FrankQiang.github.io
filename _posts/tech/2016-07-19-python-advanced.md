@@ -6,6 +6,18 @@ tags: Python3
 keywords: Python3  Advanced
 ---
 
+## 1. 基本问题
+
+### 1.1 版本
+
+目前看来，Python3已经是主流了。点击[http://py3readiness.org/](http://py3readiness.org/)查看主流第三方库和框架对Python3的支持。
+
+### 1.2 风格规范
+
+[Google Python编码规范](http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules/)
+
+### 1.2 虚拟机
+
 深入理解Python3。
 
 ### 1. 示例
