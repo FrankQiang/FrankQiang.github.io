@@ -107,7 +107,52 @@ main.py编译后，接下来就由Python虚拟机来执行字节码指令。Pyth
 [http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912](http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912)
 
 
-### 3异常
+### 3 内置类型
+
+### 3.1 数字
+
+#### bool
+
+None、0、空字符串、以及没有元素的容器对象都可视为 False,反之为 True。
+
+True 可以当1，False可以当0.
+
+#### int
+
+sys.maxsize查看支持的最大数。
+
+#### float
+
+使用用双精度浮点数 (float),不能 "精确" 表示某些十进制的小数值。尤其是 "四舍五入(round)" 的结果,可能和预想不同。
+
+```CPP
+>>> 3/2
+1.5
+>>> 3//2
+1
+
+>>> 3*0.1 == 0.3    # 这个容易导致奇怪的错误
+False
+>>> round(2.675, 2) # 并没有想象的四舍五入
+2.67
+```
+
+如果需要,可用用 Decimal 代替,它能精确控制运算精度、有效数位和 round 的结果。
+
+```CPP
+from decimal import Decimal, ROUND_UP, ROUND_DOWN
+
+>>> 3*Decimal('0.1') == Decimal('0.3')
+True
+>>> Decimal('2.675').quantize(Decimal('.01'), ROUND_UP)
+Decimal('2.68')
+>>> Decimal('2.675').quantize(Decimal('.01'), ROUND_DOWN)
+Decimal('2.67')
+```
+
+
+
+### 4异常
 
 除了多个else，和其它语言没什么区别。
 ```
@@ -172,7 +217,7 @@ def test():
     warnings.warn("hi")  # 默认只显示警告信息，不中断执行。
     print("test")
 ```
-### 3.1assert
+### 4.1assert
 
 ```
 def test(n):
