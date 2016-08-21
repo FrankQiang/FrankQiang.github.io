@@ -45,6 +45,7 @@ if __name__ == '__main__':
 ```
 
 执行main.py程序
+
 ```
 python3 main.py
 
@@ -299,6 +300,7 @@ def test(n):
 ```
 
 支持在except中重新抛出异常
+
 ```
 try:
     try:
@@ -336,6 +338,7 @@ def test(n):
     print(n)
 ```
 当条件不符时，抛出AssertionError错误。assert受只读__debug__控制，可以在启动时添加"-O"参数使其失效。
+
 ```
 python3 -O test.py
 ```
