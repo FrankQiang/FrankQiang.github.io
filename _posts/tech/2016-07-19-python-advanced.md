@@ -258,6 +258,239 @@ True
 
 ```
 
+### 3.3 list
+
+```CPP
+>>> [x for x in range(10)]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> l = [x for x in range(10)]
+>>> l
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> l.append(10)
+>>> l
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> l.insert(1, 0)
+>>> l
+[0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> l.pop()
+10
+>>> l
+[0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> l.pop(8)
+7
+>>> l
+[0, 0, 1, 2, 3, 4, 5, 6, 8, 9]
+>>> l.remove(1)
+>>> l
+[0, 0, 2, 3, 4, 5, 6, 8, 9]
+>>> l.count(0)
+2
+
+>>> l
+['a', 'b', 'c']
+>>> l.index('c')
+2
+```
+
+
+可用 bisect 向有序列表中插入元素。
+
+```CPP
+>>> import bisect
+>>> l = [x for x in range(10)]
+>>> l
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> bisect.insort(l, 2)
+>>> l
+[0, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+`关于性能`
+
+对于频繁增删元素的大型列表,应该考虑用用链表等数据结构代替。
+
+
+某些时候,可以考虑用数组代替列表。 和列表存储对象指针不同,数组直接内嵌数据,既省了创建对象的内存开销,又又提升了读写效率。
+
+```CPP
+>>> import array
+>>> a = array.array('l', range(10))
+>>> a
+array('l', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>> a.tolist()
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+
+### 3.4 tuple
+
+```CPP
+>>> t = (2,)
+>>> t
+(2,)
+
+>>> t = ('a', 'b', 'c', 'a')
+('a', 'b', 'c', 'a')
+>>> t.count('a')
+2
+>>> t.index('c')
+2
+
+```
+
+标准库另提供了特别的 namedtuple,可用用名字访问元素项。
+
+```CPP
+>>> from collections import namedtuple
+>>> User = namedtuple("User", "name age")
+>>> u = User("John", 20)
+>>> u.name
+'John'
+>>> u.age
+20
+
+```
+
+### 3.5 dict
+
+生成dict
+
+```CPP
+dict.fromkeys(['a', 'b', 'c'], 1)
+
+>>> l1 = ['a', 'b', 'c']
+>>> l2 = [1, 2, 3]
+>>> dict(zip(l1, l2))
+{'c': 3, 'b': 2, 'a': 1}
+```
+
+基本操作
+
+```CPP
+>>> d = {"name": "John", "age": 20}
+>>> d["gender"] = "boy"
+>>> d
+{'gender': 'boy', 'age': 20, 'name': 'John'}
+>>> d.update({"country": "china"})
+>>> d
+{'gender': 'boy', 'age': 20, 'country': 'china', 'name': 'John'}
+>>> d.pop("gender")
+'boy'
+>>> d
+{'age': 20, 'country': 'china', 'name': 'John'}
+```
+
+获取数据
+
+```CPP
+>>> d = {'a': 1, 'b': 2}
+>>> d.get('c')
+>>> d.get('a')
+1
+>>> d
+{'a': 1, 'b': 2}
+
+d = {'a': 1, 'b': 2}
+>>> d.setdefault('a', 0)
+1
+>>> d.setdefault('c', 3)
+3
+>>> d
+{'b': 2, 'a': 1, 'c': 3}
+```
+
+```CPP
+d = {'a': 1, 'b': 2}
+>>> d.values()
+dict_values([1, 2])
+>>> d.keys()
+dict_keys(['a', 'b'])
+>>> d.items()
+dict_items([('a', 1), ('b', 2)])
+```
+
+扩展
+
+```CPP
+>>> from collections import defaultdict
+>>> d = defaultdict(list)
+>>> d['a'].append(1)  # key "a" 不存在,直接用 list() 函数创建一个空列表作为 value。
+>>> d['a'].append(2)
+>>> d['a']
+[1, 2]
+```
+
+字典是哈希表,默认迭代是无序的。有序可以用 OrderedDict。
+
+```CPP
+>>> d = {}
+>>> d['a'] = 1
+>>> d['b'] = 2
+>>> d['c'] = 3
+>>> d['d'] = 4
+>>> d
+{'a': 1, 'b': 2, 'd': 4, 'c': 3}
+
+
+>>> from collections import OrderedDict
+>>> od = OrderedDict()
+>>> od['a'] = 1
+>>> od['b'] = 2
+>>> od['c'] = 3
+>>> od['d'] = 4
+>>> od
+OrderedDict([('a', 1), ('b', 2), ('c', 3), ('d', 4)])
+```
+
+### 3.6 set
+
+集合只能存储可哈希对象,一样有只读版本 frozenset。
+
+```CPP
+判重公式:(a is b) or (hash(a) == hash(b) and eq(a, b))
+```
+
+```CPP
+>>> s = set([1, 2, 3])
+>>> s
+{1, 2, 3}
+>>> 1 in s
+True
+>>> 4 in s
+False
+>>> s.add(4)
+>>> s
+{1, 2, 3, 4}
+>>> s.remove(4)
+>>> s
+{1, 2, 3}
+
+>>> s.update(set([4, 5]))
+>>> s
+{1, 2, 3, 4, 5}
+>>> s.pop()
+1
+
+```
+
+集合运算
+
+```CPP
+>>> s1 = set("abc")
+>>> s2 = set("bcd")
+>>> s1 & s2
+{'b', 'c'}
+>>> s1 | s2
+{'b', 'd', 'c', 'a'}
+>>> s1 - s2
+{'a'}
+>>> s1 ^ s2
+{'a', 'd'}
+
+>>> set("abcd").isdisjoint("bc") # 判断是否没有交集
+False
+
+```
+
 
 
 ### 4异常
