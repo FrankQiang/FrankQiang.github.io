@@ -23,6 +23,7 @@ keywords: Python3  Advanced
 ### 1. 示例
 
 这个示例有两个文件
+
 ```
 # sub.py
 
@@ -150,11 +151,118 @@ Decimal('2.68')
 Decimal('2.67')
 ```
 
+### 3.2字符串
+
+```CPP
+>>> ','.join(['a', 'b', 'c'])
+'a,b,c'
+>>> "a,b,c".split(',')
+['a', 'b', 'c']
+>>> "a\nb\nc".splitlines()
+['a', 'b', 'c']
+>>> "a\nb\nc".splitlines(True)
+['a\n', 'b\n', 'c']
+>>> "abc".upper()
+'ABC'
+>>> "Abc".lower()
+'abc'
+
+>>> " abc".lstrip()
+'abc'
+>>> "abc ".rstrip()
+'abc'
+>>> " abc ".strip()
+'abc'
+
+>>> "abc".strip("ac")
+'b'
+>>> "abc".replace('a', 'A')
+'Abc'
+
+>>> "a\tbc".expandtabs(4)
+'a   bc'
+
+>>> "abc".ljust(5, '0')
+'abc00'
+>>> "abc".rjust(5, '0')
+'00abc'
+>>> "abc".center(5, '0')
+'0abc0'
+
+>>> "123".zfill(6)
+'000123'
+```
+
+`format`
+
+```CPP
+>>> name = "John"
+>>> "I'm {0}".format(name)
+"I'm John"
+>>> "I'm {name}".format(name=name)
+"I'm John"
+
+>>> names = ["John", "Tom"]
+>>> "I'm {0[0]}".format(names)
+"I'm John"
+
+# ^、<、>分别是居中、左对齐、右对齐，后面带宽度
+# :号后面带填充的字符，只能是一个字符，不指定的话默认是用空格填充
+>>> num = 3
+>>> "{0:0^5}".format(num)
+'00300'
+>>> "{0:0<5}".format(num)
+'30000'
+>>> "{0:0>5}".format(num)
+'00003'
+
+>>> '{:,}'.format(1234567890)
+'1,234,567,890'
+```
+
+常见的字符序列
+
+```CPP
+>>> from string import ascii_letters
+>>> ascii_letters
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+>>> from string import digits
+>>> digits
+'0123456789'
+
+>>> from string import Template
+>>> Template("$name").substitute(name="John")
+'John'
+
+>>> Template("${name}").substitute(name="John")
+'John'
+
+>>> Template("${name}").safe_substitute(name="John")   # 没有找到值， 不会报错。
+'John'
+```
+
+`池化`
+
+在 Python 进程中,无数的对象拥有一堆类似 `__name__`、`__doc__` 这样的名字,池化有助于减少对象数量和内存消耗, 提升性能。
+
+用 intern() 函数可以把运行期动态生成的字符串池化。
+
+```CPP
+>>> s = ''.join(['a', 'b', 'c'])                                                                                                      >>> import sys          
+>>> s is "abc"
+False
+
+>>> sys.intern(s) is "abc"
+True
+
+```
+
 
 
 ### 4异常
 
 除了多个else，和其它语言没什么区别。
+
 ```
 def test(n):
     try:
@@ -170,6 +278,7 @@ def test(n):
 关键字raise抛出异常，else只在没有异常发生时执行。无论如何finally都会执行。
 
 可以有多个except分支捕获不同类型的异常。
+
 ```
 def test(n):
     try:
@@ -202,6 +311,7 @@ except:
 ```
 
 如果需要，可用sys.exc_info()获取调用堆栈上的最后异常信息。
+
 ```
 def test():
     try:
@@ -212,6 +322,7 @@ def test():
 ```
 
 warnings
+
 ```
 def test():
     warnings.warn("hi")  # 默认只显示警告信息，不中断执行。
