@@ -253,3 +253,30 @@ keywords: Mysql, 笔记
 **修改数据库编码**
 
     ALTER DATABASE database_name CHARACTER SET utf8 COLLATE utf8_general_ci
+
+
+**sql注入**
+
+    表结构 id name      password
+    表数据 1  test_name test_password
+
+    select * from where name = 'test_name' and password = 'test_password'
+
+    注入
+
+    'test_name' 替换为 'or 1 = 1 #'
+
+    用 or 1 = 1 保持查询用真 
+    用# 注释后面的内容
+
+
+**连表查询**
+
+    读取共有的数据
+    ELECT a.id, a.name, b.id FROM user a INNER JOIN table1 b ON a.id = b.user_id;
+
+    读取a的所有数据
+    ELECT a.id, a.name, b.id FROM user a LEFT JOIN table1 b ON a.id = b.user_id;
+
+    读取b的所有数据
+    ELECT a.id, a.name, b.id FROM user a RIGHT JOIN table1 b ON a.id = b.user_id;
