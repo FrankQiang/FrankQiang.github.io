@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mysql笔记
+title: Mysql
 category: 技术
 tags: Mysql
 keywords: Mysql, 笔记

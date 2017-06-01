@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Linux定时任务
+title: Linux
 category: 技术
 tags: Linux cron job
 keywords: Linux  cron job

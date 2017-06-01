@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 正则表达式笔记
+title: 正则表达式
 category: 技术
 tags: 正则表达式
 keywords: 正则表达式, 笔记
