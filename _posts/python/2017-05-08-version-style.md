@@ -18,4 +18,4 @@ Python3是未来，在以后的项目优先考虑Python3。
 使用和其他Python程序员相同的风格来写代码，更便利于多人协作。
 即使代码只会自己看，按照这套风格也会帮助自己理解自己的代码。
 
-ogle Python编码规范](http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules)
+[Google Python编码规范](http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules)
