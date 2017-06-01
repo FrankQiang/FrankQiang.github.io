@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Python3 笔记
+title: Python进阶
 category: 技术
 tags: Python3
 keywords: Python3  Advanced
