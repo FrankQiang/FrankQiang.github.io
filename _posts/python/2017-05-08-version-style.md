@@ -6,7 +6,7 @@ tags: Python
 keywords: Python
 ---
 
-### Python版本
+### 选择Python3
 
 官方2020年后停止对Python2的维护，主流库绝大多数也都迁移到Python3。
 这是主流库的迁移情况 [http://py3readiness.org/](http://py3readiness.org/)
