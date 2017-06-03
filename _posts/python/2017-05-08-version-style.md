@@ -12,6 +12,7 @@ keywords: Python
 这是主流库的迁移情况 [http://py3readiness.org/](http://py3readiness.org/)
 Python3是未来，在以后的项目优先考虑Python3。
 
+后面的文章都将以Python3为基础来写。
 
 ### PEP风格
 
