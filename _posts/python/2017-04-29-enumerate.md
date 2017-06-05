@@ -19,6 +19,10 @@ keywords: Python
     a = ['a', 'b', 'c'] 
     for index, value in enumerate(a, 1):
         print(index, value)
+
+    # 1 a
+    # 2 b
+    # 3 c
 ```
 
-enumerate 提供第二个参数，以指定开始计数时所用的值（默认为 0）。
+enumerate 提供第二个参数，确定索引的起始值（默认为 0）。
