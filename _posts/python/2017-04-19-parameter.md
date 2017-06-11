@@ -27,6 +27,53 @@ t("John")     # John 18
 t("Tom", 16)  # Tom 16
 ```
 
+#### 默认参数最好用不可变类型
+
+```python
+
+# 在每个人加一个成绩
+
+def t(name, scores=[]):
+    scores.append(90)
+    print(name, scores)
+
+t("John", [80])
+t("Tom", [76])
+
+t("Marsh")
+t("Jim")
+
+# John [80, 90]
+# Tom [76, 90]
+# Marsh [90]
+# Jim [90, 90]  # 出现错误
+```
+
+由于 scores 参数的默认值只会在模块加载时计算一次，
+所以凡是以默认形式来调用 t 函数的代码，都将共享同一份数组。
+这会引发非常奇怪的行为。
+
+```python
+def t(name, scores=None):
+    if scores is None:
+        scores = [90]
+    else:
+        scores.append(90)
+    print(name, scores)
+
+t("John", [80])
+t("Tom", [76])
+
+t("Marsh")
+t("Jim")
+
+# John [80, 90]
+# Tom [76, 90]
+# Marsh [90]
+# Jim [90]
+```
+ 
+
 #### 可变参数
 
 ```python
