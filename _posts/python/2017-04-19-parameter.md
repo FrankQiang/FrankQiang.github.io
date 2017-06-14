@@ -8,7 +8,7 @@ keywords: Python
 
 它们的顺序必须是
 
-* 位置参数 > 默认参数 > 可变参数 > 关键字参数
+* 位置参数 > 默认参数 > 可变参数 >  命名关键字参数 > 关键字参数
 
 #### 位置参数
 
@@ -92,6 +92,32 @@ t("John", 18, *scores)
 # John 18
 # 78
 # 83
+```
+
+#### 命名关键字参数
+
+必须需要一个或多个关键字参数
+
+```python
+def t(name, age=18, *, country, **kw):
+    print(name, age)
+    print(country)
+    for key, value in kw.items():
+        print(key, value)
+
+t("John", 18, country="China", gender="male")
+
+或者
+
+def t(name, age=18, *args, country, **kw):
+    print(name, age)
+    for score in args:
+        print(score)
+    print(country)
+    for key, value in kw.items():
+        print(key, value)
+
+t("John", 18, 78, 83, country="China", gender="male")
 ```
 
 
