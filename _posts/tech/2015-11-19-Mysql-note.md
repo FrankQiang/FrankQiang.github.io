@@ -280,3 +280,14 @@ keywords: Mysql, 笔记
 
     读取b的所有数据
     ELECT a.id, a.name, b.id FROM user a RIGHT JOIN table1 b ON a.id = b.user_id;
+
+** 查询值为 null **
+
+    查不出来， name = null 永远为 false
+    select * from user where name = null;
+
+    可以查出 name 等于 null 的user
+    select * from user where name is null;
+
+    可以查出 name 不是 null 的user
+    select * from user where name is not null;
