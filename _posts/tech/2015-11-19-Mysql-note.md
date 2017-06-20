@@ -291,3 +291,18 @@ keywords: Mysql, 笔记
 
     可以查出 name 不是 null 的user
     select * from user where name is not null;
+
+** 索引 **
+    
+    唯一 且 不能为null
+    alter table 'table_name' add primary key (column_name);
+
+    唯一 可以为 null
+    alter table 'table_name' add unique (column_name);
+
+    普通索引，可以重复
+    alter table 'table_name' add index (column_name);
+
+    全文索引
+    alter table 'table_name' add fulltext (column_name);
+
