@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mysql : master/slave
+title: Mysql ： master/slave
 category: 技术
 tags: mysql 分布式
 keywords: mysql 分布式
