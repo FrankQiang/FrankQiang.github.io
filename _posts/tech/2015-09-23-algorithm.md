@@ -21,12 +21,10 @@ for x in range(n):
     nums.append(random.randint(1, 100))
 print(nums)
 
-for i in range(1, n):
-    j = i
-    while j > 0:
-        if nums[j] < nums[j-1]:
-            nums[j], nums[j-1] = nums[j-1], nums[j]
-        j = j-1
+for i in range(len(nums)):
+    for j in range(i):
+        if nums[j] > nums[i]:
+            nums[i], nums[j] = nums[j], nums[i]
 
 print(nums)
 ```
