@@ -14,25 +14,32 @@ keywords: Python
 以 L --> E --> G --> B 的规则查找，即：在局部找不到，便会去局部外的局部找，再找不到就会去全局找，再者去内建中找。
 
 ```python
-a = 0              # Global variable
+
+__builtins__.a = 0  # Built-in variable
   
-  
+b = 1               # Global variable
+
+
 def outside():
-    b = 1          # Enclosing variable
+	c = 2           # Enclosing variable
 
-    def inside():
-        c = 2      # Local variable
-        print(a)
-        print(b)
-        print(c)
+	def inside():
+		d = 3       # Local variable
+		print(a)
+		print(b)
+		print(c)
+		print(d)
 
-    inside()
+	inside()
+
 
 outside()
 
 # 0
 # 1
 # 2
+# 3
+
 ```
 
 #### 修改Global variable
