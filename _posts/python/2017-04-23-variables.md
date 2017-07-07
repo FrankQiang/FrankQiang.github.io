@@ -16,21 +16,21 @@ keywords: Python
 ```python
 
 __builtins__.a = 0  # Built-in variable
-  
+        
 b = 1               # Global variable
-
+        
 
 def outside():
-	c = 2           # Enclosing variable
+    c = 2           # Enclosing variable
 
-	def inside():
-		d = 3       # Local variable
+    def inside():
+        d = 3       # Local variable
 		print(a)
-		print(b)
-		print(c)
-		print(d)
+        print(b)
+        print(c)
+        print(d)
 
-	inside()
+    inside()
 
 
 outside()
