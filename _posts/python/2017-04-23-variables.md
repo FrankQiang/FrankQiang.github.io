@@ -25,7 +25,7 @@ def outside():
 
     def inside():
         d = 3       # Local variable
-		print(a)
+        print(a)
         print(b)
         print(c)
         print(d)
