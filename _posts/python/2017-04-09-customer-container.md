@@ -31,8 +31,9 @@ print(t.count())
 
 #### 复杂的类型
 
-继承 collections.abc 中的 Sequence 类会使事情简单些，
-该类具备容器常用的方法。
+继承 collections.abc 中的 Sequence 类会使事情简单些。
+
+该类具备容器常用的方法， 只需要实现`__len__` 和 `__getitem__` 就行了。
 
 ```python
 from collections.abc import Sequence
