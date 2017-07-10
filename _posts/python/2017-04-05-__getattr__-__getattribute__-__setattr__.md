@@ -69,9 +69,9 @@ print(t.age)
 ```python
 class T(object):
 
-    def __setattr__(self, name, value):    # 对实例属性赋值，就会触发这个方法
+    def __setattr__(self, attr, value):    # 对实例属性赋值，就会触发这个方法
         print("Called __setattr__") 
-        super().__setattr__(name, value)   # 用这种方式为实例属性赋值
+        super().__setattr__(attr, value)   # 用这种方式为实例属性赋值
                                            # 如果用setattr赋值，
                                            # 会再次触发这个方法，形成死循环。
 
