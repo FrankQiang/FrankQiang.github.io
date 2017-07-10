@@ -47,8 +47,8 @@ class T(object):
         print("Called __getattribute__")
         try:
             return super().__getattribute__(attr)  # 用这种方式获取属性值。
-        except AttributeError:                     # 如果用self.name获取属性值，会再次触发这个方法，形成死循环。
-            value = 18
+        except AttributeError:                     # 如果用self.name获取属性值，
+            value = 18                             # 会再次触发这个方法，形成死循环。 
             setattr(self, attr, value)
             return value
 
@@ -72,7 +72,8 @@ class T(object):
     def __setattr__(self, name, value):    # 对实例属性赋值，就会触发这个方法
         print("Called __setattr__") 
         super().__setattr__(name, value)   # 用这种方式为实例属性赋值
-                                           # 如果用setattr赋值，会再次触发这个方法，形成死循环。
+                                           # 如果用setattr赋值，
+                                           # 会再次触发这个方法，形成死循环。
 
 
 t = T()
