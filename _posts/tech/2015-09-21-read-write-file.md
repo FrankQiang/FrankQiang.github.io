@@ -6,6 +6,31 @@ tags: 读取文件
 keywords: 读取文件, 笔记
 ---
 
+```
+Character   Meaning
+'r'     open for reading (default)
+		read 读取文件，文件必须存在 (默认)
+
+'w'     open for writing, truncating the file first
+		write 写文件，写文件之前清空文件。若文件不存在则建立该文件。
+
+'x'     open for exclusive creation, failing if the file already exists
+		create 创建不存在的文件，并可以写。
+
+'a'     open for writing, appending to the end of the file if it exists
+		append 若文件已经存在则追加，若文件不存在则建立该文件。
+
+'b'     binary mode
+		以二进制形式读或写文件
+
+'t'     text mode (default)
+		以文本形式读或写文件 (默认)
+
+'+'     open a disk file for updating (reading and writing)
+		在 read write create append 的基础上同时有读写的能力
+
+```
+
 
 * `r` 打开只读文件，该文件必须存在。
 
