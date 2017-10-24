@@ -1,6 +1,6 @@
 ---
 layout: post
-title: t = (1, 2) 
+title: x, y = (1, 2) 
 category: CookPython
 tags: Python
 keywords: Python

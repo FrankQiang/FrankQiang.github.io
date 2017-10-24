@@ -1,6 +1,6 @@
 ---
 layout: post
-title: head, *tail = 1, 10, 7] 
+title: head, *tail = [1, 10, 7] 
 category: CookPython
 tags: Python
 keywords: Python
