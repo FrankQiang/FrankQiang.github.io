@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Iterable to Limited Variables 
+title: head, *tail = 1, 10, 7] 
 category: CookPython
 tags: Python
 keywords: Python
 ---
-
-#### Read 
 
 ```python
 

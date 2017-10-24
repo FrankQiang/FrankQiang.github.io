@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Iterable to Variables 
+title: t = (1, 2) 
 category: CookPython
 tags: Python
 keywords: Python
 ---
-
-#### Read 
 
 ```python
 
