@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 元素频次统计
+title: 元素 Counter
 category: CookPython
 tags: Python
 keywords: Python
