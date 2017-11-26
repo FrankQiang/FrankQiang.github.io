@@ -173,6 +173,46 @@ g = (len(x) for x in open('t.txt'))
 
 ```
 
+#### Dict Comprehension 
+
+```python
+
+keys = ["name", "age"]
+values = ["Tom", 18]
+d = {key: value for(key, value) in zip(keys, values)}
+print(d)
+
+# {'name': 'Tom', 'age': 18}
+
+```
+
+#### Single Underscore and Double Underscore 
+
+```python
+
+class T(object):
+
+    def __init__(self, name, age):
+        self._name = name 
+        self.__age = age
+
+
+t = T("Tom", 18)
+print(t._name)
+print(t._T__age)
+print(t.__age)
+
+__foo__: 一种约定, Python内部的名字,用来区别其他用户自定义的命名,以防冲突.
+
+_foo: 一种约定,用来指定变量私有. 可以被继承.
+
+__foo: 是真正的私有变量, 不能被继承, 用来区别其它类相同的命名, 
+	   但也可以通过_classname__foo来访问,
+		we are all consenting adults here 
+	   一般不会通过这种方法来操作变量.
+
+```
+
 ### Algorithm 
 
 ```python
