@@ -153,7 +153,7 @@ list(b)  # [2, 4]
 
 l = [x for x range(5)]  # [0, 1, 2, 3, 4]
 
-g = (x for x in range(5))  # <generator object <genexpr> at 0x7ff2dd15dea0>
+g = (x for x in range(5))  # <generator object ...>
 
 注意：
     由生成器表达式所返回的那个迭代器是有状态的，
