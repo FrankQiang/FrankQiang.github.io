@@ -569,7 +569,7 @@ outside()
 
 ```
 
-#### copy and deepcopy 
+#### 13 copy and deepcopy 
 
 ```python
 
@@ -593,6 +593,112 @@ a =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]
 b =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]
 c =  [1, 2, 3, 4, ['a', 'b', 'c']]
 d =  [1, 2, 3, 4, ['a', 'b']]
+
+```
+
+#### 14 contextmanager 
+
+```python
+
+import logging
+
+
+def t():
+    logging.debug("Some debug data")
+    logging.error("Error log here")
+    logging.debug("More debug data")
+
+
+t()
+
+# ERROR:root:Error log here
+
+
+
+在上下文环境下日志打印 
+
+import logging
+from contextlib import contextmanager
+    
+    
+def t():
+    logging.debug("Some debug data")
+    logging.error("Error log here")
+    logging.debug("More debug data")
+
+
+@contextmanager
+def debug_logging(level):
+    logger = logging.getLogger()
+    old_level = logger.getEffectiveLevel()
+    logger.setLevel(level)
+    try:
+        yield
+    finally:
+        logger.setLevel(old_level)
+
+
+with debug_logging(logging.DEBUG):
+    print("Inside:")
+    t()          # 日志打印的级别为 DEBUG
+print("After:")  # 日志打印的级别重新恢复为ERROR
+t()
+
+
+# Inside:
+# DEBUG:root:Some debug data
+# ERROR:root:Error log here
+# DEBUG:root:More debug data
+# After:
+# ERROR:root:Error log here
+
+```
+
+#### 15 property 
+
+```python
+
+```
+
+#### 16 描述符 
+
+```python
+
+```
+
+#### 17 decorator 
+
+```python
+
+```
+
+#### 18 metaclass 
+
+```python
+
+```
+
+#### 19 process 
+
+```python
+
+```
+
+#### 20 thread 
+
+```python
+
+```
+
+#### 21 queue 
+
+```python
+
+```
+
+#### 22 coroutine 
+
+```python
 
 ```
 
