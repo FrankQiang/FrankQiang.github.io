@@ -463,7 +463,9 @@ my_singleton.foo()
 * G （Global） 全局作用域
 * B （Built-in） 内建作用域
 
-以 L --> E --> G --> B 的规则查找，即：在局部找不到，便会去局部外的局部找，再找不到就会去全局找，再者去内建中找。
+以 L --> E --> G --> B 的规则查找，即：在局部找不到，
+
+便会去局部外的局部找，再找不到就会去全局找，再者去内建中找。
 
 
 __builtins__.a = 0  # Built-in variable
@@ -564,6 +566,33 @@ def outside():
     a = 0
     print(locals())     # {'a': 0}
 outside()
+
+```
+
+#### copy and deepcopy 
+
+```python
+
+import copy
+a = [1, 2, 3, 4, ['a', 'b']]  #原始对象
+
+b = a  #赋值，传对象的引用
+c = copy.copy(a)  #对象拷贝，浅拷贝
+d = copy.deepcopy(a)  #对象拷贝，深拷贝
+
+a.append(5)  #修改对象a
+a[4].append('c')  #修改对象a中的['a', 'b']数组对象
+
+print 'a = ', a
+print 'b = ', b
+print 'c = ', c
+print 'd = ', d
+
+输出结果：
+a =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]
+b =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]
+c =  [1, 2, 3, 4, ['a', 'b', 'c']]
+d =  [1, 2, 3, 4, ['a', 'b']]
 
 ```
 
