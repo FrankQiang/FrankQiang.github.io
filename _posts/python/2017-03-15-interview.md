@@ -691,6 +691,46 @@ print(t.value)
 
 ```python
 
+from weakref import WeakKeyDictionary
+
+
+class Grade(object):
+
+    def __init__(self):    
+        self._values = WeakKeyDictionary() 
+
+        # 用字典来记录每个实例的状态。
+        # 为了避免实例引用计数无法降为0， 
+        # 垃圾回收器无法回收，这里用弱引用字典。
+
+    def __get__(self, instance, instance_type):
+        if instance is None:
+            return self
+        return self._values.get(instance, 0)
+
+    def __set__(self, instance, value):
+        if not (0 <= value <= 100):
+            raise ValueError("Grade must be between 0 and 100")
+        self._values[instance] = value
+
+
+class Exam(object):
+    math = Grade()
+    english = Grade()
+
+
+exam = Exam()         
+exam.math = 97        # Exam.__dict__['math'].__set__(exam, 40) 
+exam.english = 89
+print(exam.math)      # Exam.__dict__['math'].__get__(exam, Exam)
+print(exam.english)
+exam.english = 87
+print(exam.english)
+
+# 97
+# 89
+# 87
+
 ```
 
 #### 17 decorator 
@@ -750,7 +790,7 @@ t()
 from functools import wraps, partial
 
     
-def debug(func=None, *, prefix=""):
+def debug(func=None, prefix=""):
     if func is None:
         return partial(debug, prefix=prefix)
     msg = prefix + func.__qualname__
@@ -782,11 +822,172 @@ print(add(3, 4))
 # ***add
 # 7
 
+
+Class Decorator
+
+
+from functools import wraps, partial
+
+
+def debug(func=None, prefix=""):
+    if func is None:
+        return partial(debug, prefix=prefix)
+    msg = prefix + func.__qualname__
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(msg)
+        return func(*args, **kwargs)
+    return wrapper
+
+
+def debugmethods(cls):
+    for name, val in vars(cls).items():
+        if callable(val):
+            setattr(cls, name, debug(val))
+    return cls
+
+
+class T(object):
+
+    @debug
+    def a(self):
+        print('a')
+
+    @debug
+    def b(self):
+        print('b')
+
+	@classmethod    # Not wrapped
+    def c(cls):
+        print('c')
+        
+    @staticmethod   # Not wrapped
+    def d():
+        print('d')
+
+	@classmethod    
+    @debug
+    def e(cls):
+        print('c')
+        
+    @staticmethod   
+    @debug
+    def f():
+        print('d')
+
+
+t = T()
+t.a()
+t.b()
+t.c()
+t.d()
+t.e()
+t.f()
+
+
+
+@debugmethods
+class T(object):
+
+    def a(self):
+        print('a')
+
+    def b(self):
+        print('b')
+
+	@classmethod    # Not wrapped
+    def c(cls):
+        print('c')
+        
+    @staticmethod   # Not wrapped
+    def d():
+        print('d')
+
+        
+t = T()
+t.a()
+t.b()
+t.c()
+t.d()
+
 ```
 
 #### 18 metaclass 
 
 ```python
+
+from functools import wraps, partial
+
+
+def debug(func=None, prefix=""):
+    if func is None:
+        return partial(debug, prefix=prefix)
+    msg = prefix + func.__qualname__
+        
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(msg)
+        return func(*args, **kwargs)
+    return wrapper
+        
+    
+def debugmethods(cls):
+    for name, val in vars(cls).items():
+        if callable(val):
+            setattr(cls, name, debug(val))
+    return cls
+
+
+@debugmethods
+class Base(object):
+    pass
+ 
+ 
+@debugmethods
+class Spam(Base):
+    pass
+
+    
+@debugmethods
+class Grok(Spam):
+    pass
+
+
+@debugmethods
+class Mondo(Grok):
+    pass
+
+
+Solution: A Metaclass
+
+class debugmeta(type):
+    def __new__(cls, clsname, bases, clsdict):
+        clsobj = super().__new__(cls, clsname, bases, clsdict)
+        clsobj = debugmethods(clsobj)
+        return clsobj
+    
+
+class Base(metaclass=debugmeta):
+    pass
+
+
+class Spam(Base):
+    pass
+
+
+class Grok(Spam):
+    pass
+
+
+class Mondo(Grok):
+
+    def t(self):
+        print('t')
+
+
+m = Mondo()
+m.t()
 
 ```
 
@@ -794,11 +995,247 @@ print(add(3, 4))
 
 ```python
 
+
+启动一个子进程
+
+import os
+from multiprocessing import Process
+
+
+def t(name):
+    print("Child process {0} {1}".format(os.getpid(), name))
+
+
+if __name__ == "__main__":
+    print("Parent process {0}".format(os.getpid()))
+    p = Process(target=t, args=("test",))
+    print("Child process will start")
+    p.start()  # 启动子进程
+    p.join()   # 等待子进程结束后再继续往下运行
+    print("Child process end")
+
+
+进程池
+
+import os
+import time
+import random
+from multiprocessing import Pool
+
+
+def task(name):
+    print("Run task {0}, {1}".format(name, os.getpid()))
+    start = time.time()
+    time.sleep(random.random()*3)
+    end = time.time()
+    print("Task {0} runs {1} seconds".format(name, (end - start)))
+
+
+if __name__ == "__main__":
+    print("Parent process {0}".format(os.getpid()))
+    p = Pool()          # 进程池默认数量和电脑有关, 4核CPU，就是进程池默认是4
+    for i in range(5):  # 测试的电脑4核CPU，这里起5个子进程，会有一个进程等待其它进程执行完后执行
+        p.apply_async(task, args=(i,))
+    print("Waiting for all subprocesses done...")
+    p.close()  # close 后就不能继续添加新的Process了
+    p.join()   # 等待子进程结束后再继续往下运行
+    print("All subprocesses done")
+
+
+# Parent process 19271
+# Waiting for all subprocesses done...
+# Run task 0, 19272
+# Run task 1, 19273
+# Run task 2, 19274
+# Run task 3, 19275
+# Task 1 runs 1.0092787742614746 seconds
+# Run task 4, 19273
+# Task 3 runs 1.3692305088043213 seconds
+# Task 0 runs 1.4714231491088867 seconds
+# Task 2 runs 1.9193198680877686 seconds
+# Task 4 runs 1.993635892868042 seconds
+# All subprocesses done
+
+
+subprocess
+
+import subprocess
+
+p = subprocess.Popen(["echo", "Hi"], stdout=subprocess.PIPE)
+out, error = p.communicate()
+print(out.decode("utf-8"))
+
+# Hi
+
 ```
 
 #### 20 thread 
 
 ```python
+
+
+单个线程
+
+from time import time
+
+
+def factorize(num):
+    for i in range(1, num+1):
+        if num % i == 0:
+            yield i
+
+
+nums = [2139079, 1214759, 1516637, 1852285]
+start = time()
+for num in nums:
+    list(factorize(num))
+end = time()
+print(end-start)
+
+
+# 0.4892253875732422
+
+
+多个线程
+
+from time import time
+from threading import Thread
+
+
+class FactorizeThread(Thread):
+
+    def __init__(self, num):
+        super().__init__()
+        self.num = num 
+
+    def factorize(self, num):
+        for i in range(1, num+1):
+            if num % i == 0:
+                yield i
+
+    def run(self):
+        self.factors = list(self.factorize(self.num))
+
+
+nums = [2139079, 1214759, 1516637, 1852285]
+start = time()
+threads = []
+for num in nums:
+    thread = FactorizeThread(num)
+    thread.start()
+    threads.append(thread)
+
+for thread in threads:
+    thread.join()
+end = time()
+print(end-start)
+
+# 0.4903602600097656   因为GIl的原因无法真正并行计算
+
+
+单线程处理阻塞式IO
+
+from time import time
+from select import select
+
+
+def slow():
+    select([], [], [], 0.1)
+
+
+start = time()
+for _ in range(5):
+    slow()
+end = time()
+print(end-start)
+
+# 0.5008544921875
+
+
+多线程处理阻塞式IO
+
+from time import time
+from select import select
+from threading import Thread
+
+    
+def slow():
+    select([], [], [], 0.1)
+
+
+start = time()
+threads = []
+for _ in range(5):
+    thread = Thread(target=slow)
+    thread.start()
+    threads.append(thread)
+
+for thread in threads:
+    thread.join()
+end = time()
+print(end-start)
+
+# 0.10056090354919434   处理阻塞式IO速度快5倍
+# Python 还有内置的 asyncio 模块来处理阻塞式IO
+
+
+多线程之间数据竞争
+
+
+from threading import Thread
+
+
+num = 0
+
+
+def buy():
+    global num
+    for i in range(1000000):
+        num += 1
+        
+        
+threads = []
+for _ in range(2):
+    thread = Thread(target=buy)
+    threads.append(thread)
+    thread.start()
+    
+for thread in threads:
+    thread.join()
+print(num)
+
+# 1351674  期望是 2000000 
+
+
+多线程用Lock避免数据竞争
+
+from threading import Thread
+from threading import Lock
+
+
+num = 0 
+lock = Lock()
+
+
+def buy():
+    global num 
+    for i in range(1000000):
+        with lock:
+            num += 1
+
+
+threads = []
+for _ in range(2):
+    thread = Thread(target=buy)
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
+print(num)
+
+
+# 2000000
 
 ```
 
@@ -806,17 +1243,156 @@ print(add(3, 4))
 
 ```python
 
+
+在获取端阻塞
+
+from queue import Queue
+from threading import Thread
+
+queue = Queue()
+
+
+def consumer():
+    print("Consumer waiting")
+    queue.get()                # 会阻塞等待put()
+    print("Consumer done")
+
+
+thread = Thread(target=consumer)
+thread.start()
+print("Producer putting")
+queue.put(object())
+thread.join()
+print("Producer Done")
+
+
+# Consumer waiting
+# Producer putting
+# Consumer done
+# Producer Done
+
+
+在添加端阻塞
+
+from queue import Queue
+from threading import Thread
+import time
+
+queue = Queue(1)  # 这里把缓冲区设为1, 
+                  # 意味着第一个put后，如果没有被消耗
+                  # 会阻塞在第二个put那里
+
+def consumer():
+    time.sleep(0.1)  # 在get前，率先put, 然后阻塞在第二个put上
+    queue.get()
+    print("Consumer got 1")
+    queue.get()
+    print("Consumer got 2")
+
+
+thread = Thread(target=consumer)
+thread.start()
+queue.put(object())
+print("Producer put 1")
+queue.put(object())
+print("Producer put 2")
+thread.join()
+print("Producer done")
+
+# Producer put 1
+# Consumer got 1
+# Producer put 2
+# Consumer got 2
+# Producer done
+
+
+追踪工作进度
+
+from queue import Queue
+from threading import Thread
+
+queue = Queue()
+
+
+def consumer():
+    print("Consumer waiting")
+    queue.get()
+    print("Consumer done")
+    queue.task_done()
+
+
+Thread(target=consumer).start()  # 线程不需要调用join方法
+queue.put(object())
+print("Producer waitting")
+queue.join()                     # queue 调用join，等待结束即可
+print("Producer done")
+
+# Consumer waiting
+# Producer waitting
+# Consumer done
+# Producer done
+
 ```
 
 #### 22 coroutine 
 
 ```python
 
+def consumer():
+    result = 9
+    while True:
+        result = yield result
+c = consumer()
+print(c.send(None))           # 启动生成器
+print(c.send(1))              # 传值给生成器
+print(c.send(2))
+c.close()                     # 结束生成器
+
+# 9
+# 1
+# 2
+
 ```
 
 #### 23 asyncio 
 
 ```python
+
+asyncio是Python 3.4版本引入的标准库，
+
+直接内置了对异步IO的支持。
+
+import asyncio
+  
+  
+async def hello(n):
+    print("Hello world!")
+    r = await asyncio.sleep(n)
+    print("Hello again!")
+
+
+loop = asyncio.get_event_loop()
+tasks = [hello(5), hello(2)]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+
+
+从Python 3.5开始引入了新的语法async和await
+
+import asyncio
+  
+  
+@asyncio.coroutine
+def hello(n):
+    print("Hello world!")
+    r = yield from asyncio.sleep(n)
+    print("Hello again!")
+    
+
+loop = asyncio.get_event_loop()
+tasks = [hello(5), hello(2)]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
 
 ```
 
