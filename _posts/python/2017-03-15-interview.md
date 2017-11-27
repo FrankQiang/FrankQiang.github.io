@@ -8,7 +8,7 @@ keywords: Python
 
 ### Python 
 
-#### Namespace 
+#### 1 Namespace 
 
 ```python
 
@@ -30,7 +30,7 @@ Python的名字实际上是一个字符串对象,
 
 ```
 
-#### Pass A Variable 
+#### 2 Pass A Variable 
 
 ```python
 
@@ -69,7 +69,7 @@ print(id(a))  # 140408380111368
 
 ```
 
-#### instance Variable and class Variable
+#### 3 instance Variable and class Variable
 
 ```python
 
@@ -98,7 +98,7 @@ print(id(Person.name))  # 140078039616392 访问类变量
 
 ```
 
-#### List Comprehension 
+#### 4 List Comprehension 
 
 ```python
 
@@ -147,7 +147,7 @@ list(b)  # [2, 4]
 
 ```
 
-#### Generator 
+#### 5 Generator 
 
 ```python
 
@@ -181,7 +181,7 @@ g = (len(x) for x in open('t.txt'))
 
 ```
 
-#### Dict Comprehension 
+#### 6 Dict Comprehension 
 
 ```python
 
@@ -194,7 +194,7 @@ print(d)
 
 ```
 
-#### Single Underscore and Double Underscore 
+#### 7 Single Underscore and Double Underscore 
 
 ```python
 
@@ -221,7 +221,7 @@ __foo: 是真正的私有变量, 不能被继承, 用来区别其它类相同的
 
 ```
 
-#### format 
+#### 8 format 
 
 ```python
 
@@ -249,7 +249,7 @@ print('{:,}'.format(1234567890))
 
 ```
 
-#### args and kwargs 
+#### 9 args and kwargs 
 
 ```python
 
@@ -390,6 +390,67 @@ t("John", 18, *scores, **others)
 # 83
 # gender male
 
+
+```
+
+#### 10 new and init 
+
+```python
+
+1. __new__是一个静态方法,而__init__是一个实例方法.
+
+2. __new__方法会返回一个创建的实例,而__init__什么都不返回.
+
+3. 只有在__new__返回一个cls的实例时后面的__init__才能被调用.
+
+4. 当创建一个新实例时调用__new__,初始化一个实例时用__init__.
+
+```
+
+#### 11 Singleton 
+
+```python
+
+在我们工作中经常需要在应用程序中保持一个唯一的实例，
+
+如：IO处理，数据库操作，配置文件等，由于这些对象都要占用重要的系统资源，
+
+所以我们必须始终使用一个公用的实例，如果创造出来多个实例，就会导致许多问题，
+
+比如占用过多资源，不一致的结果等
+
+class Singleton(object):
+
+    def __new__(cls, *args, **kwarg):
+        if not hasattr(cls, "_instance"):
+            orign = super(Singleton, cls)  # 不清楚什么意思 
+            cls._instance = orign.__new__(cls, *args, **kwarg)
+        return cls._instance
+
+
+class MyClass(Singleton):
+    pass 
+
+
+my1 = MyClass()
+my2 = MyClass()
+print(id(my1))  # 140160695672168
+print(id(my2))  # 140160695672168
+
+
+另外一种单例模式
+
+# mysingleton.py
+class My_Singleton(object):
+    def foo(self):
+            pass
+
+            my_singleton = My_Singleton()
+
+# to use
+from mysingleton import my_singleton
+
+my_singleton.foo()
 
 ```
 
