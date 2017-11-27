@@ -691,6 +691,8 @@ print(t.value)
 
 ```python
 
+当多个属性都需要表现同一种行为时, 用描述符
+
 from weakref import WeakKeyDictionary
 
 
@@ -736,6 +738,9 @@ print(exam.english)
 #### 17 decorator 
 
 ```python
+
+
+装饰器增强函数功能
 
 
 不带参数的装饰器 
@@ -824,6 +829,9 @@ print(add(3, 4))
 
 
 Class Decorator
+
+
+如果类的实例方法都需要同一种装饰器, 用类装饰器
 
 
 from functools import wraps, partial
@@ -916,6 +924,9 @@ t.d()
 #### 18 metaclass 
 
 ```python
+
+如果子类的实例方法都需要同一种装饰器, 基类使用元类
+
 
 from functools import wraps, partial
 
