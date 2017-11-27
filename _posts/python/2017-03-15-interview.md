@@ -687,7 +687,7 @@ print(t.value)
 
 ```
 
-#### 16 描述符 
+#### 16 descriptor 
 
 ```python
 
@@ -696,6 +696,91 @@ print(t.value)
 #### 17 decorator 
 
 ```python
+
+
+不带参数的装饰器 
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print("Start")
+        return func(*args, **kwargs)
+    return wrapper
+
+
+@log             # 相当于 t = log(t)
+def t():
+    print("End")
+
+
+t()
+
+# Start
+# End
+
+
+带参数的装饰器 
+
+def log(name):
+    print(name)
+        
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            print("Start")
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
+@log("Tom")      # 相当于 t = log("Tom")(t)
+def t():
+    print("End")
+
+
+t()
+
+# Tom
+# Start
+# End
+
+
+同时支持两种方式
+
+from functools import wraps, partial
+
+    
+def debug(func=None, *, prefix=""):
+    if func is None:
+        return partial(debug, prefix=prefix)
+    msg = prefix + func.__qualname__
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(msg)
+        return func(*args, **kwargs)
+    return wrapper
+
+
+@debug
+def add(x, y):
+    return x + y
+
+
+print(add(3, 4))
+# add
+# 7
+
+
+@debug(prefix="***")
+def add(x, y):
+    return x + y
+
+
+print(add(3, 4))
+
+# ***add
+# 7
 
 ```
 
@@ -724,6 +809,12 @@ print(t.value)
 ```
 
 #### 22 coroutine 
+
+```python
+
+```
+
+#### 23 asyncio 
 
 ```python
 
