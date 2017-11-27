@@ -600,6 +600,9 @@ d =  [1, 2, 3, 4, ['a', 'b']]
 
 ```python
 
+
+日志打印 
+
 import logging
 
 
@@ -657,6 +660,30 @@ t()
 #### 15 property 
 
 ```python
+
+
+访问属性时，需要表现某种行为时用@property 
+
+class T(object):
+
+    def __init__(self):
+        self._value = 5 
+
+    @property                  # 最小惊讶原则
+    def value(self):           # 列如
+        print("Get value")     # getter里面不应该修改属性
+        return self._value     # getter, setter 不应该做复杂或缓慢的操作
+
+    @value.setter
+    def value(self, value):
+        print("Change value")
+        self._value = value
+
+
+t = T() 
+print(t.value)
+t.value = 10
+print(t.value)
 
 ```
 
