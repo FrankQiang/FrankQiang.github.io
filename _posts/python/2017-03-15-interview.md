@@ -1358,6 +1358,7 @@ c.close()                     # 结束生成器
 
 ```python
 
+
 asyncio是Python 3.4版本引入的标准库，
 
 直接内置了对异步IO的支持。
@@ -1365,11 +1366,12 @@ asyncio是Python 3.4版本引入的标准库，
 import asyncio
   
   
-async def hello(n):
+@asyncio.coroutine
+def hello(n):
     print("Hello world!")
-    r = await asyncio.sleep(n)
+    r = yield from asyncio.sleep(n)
     print("Hello again!")
-
+    
 
 loop = asyncio.get_event_loop()
 tasks = [hello(5), hello(2)]
@@ -1382,12 +1384,11 @@ loop.close()
 import asyncio
   
   
-@asyncio.coroutine
-def hello(n):
+async def hello(n):
     print("Hello world!")
-    r = yield from asyncio.sleep(n)
+    r = await asyncio.sleep(n)
     print("Hello again!")
-    
+
 
 loop = asyncio.get_event_loop()
 tasks = [hello(5), hello(2)]
