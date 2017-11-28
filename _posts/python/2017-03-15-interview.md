@@ -1410,9 +1410,11 @@ loop.close()
 
 ### Algorithm 
 
-#### 冒泡
+#### 1 冒泡
 
 ```python
+
+时间复杂度 n^2
 
 nums = [5, 3, 10, 23, 12]
 
@@ -1426,9 +1428,16 @@ print(nums)
 
 ```
 
-#### 快排
+#### 2 快排
 
 ```python
+
+
+理想时间复杂度logN,但可能出现最坏情况n^2,
+
+可以通过随机化数据，避免最坏的情况。
+
+空间复杂度 1
 
 nums = [5, 3, 10, 23, 12]
 
@@ -1457,6 +1466,216 @@ print(nums)
 # [3, 5, 10, 12, 23]
 
 ```
+
+
+#### 3 堆排
+
+```python
+
+
+时间复杂度 logN
+
+空间复杂度 1
+
+nums = [5, 3, 10, 23, 12]
+
+
+def flow_up(nums, start, end):
+    root = start
+    while True:
+        child = 2*root + 1
+        if child > end: 
+            break
+        if child+1 <= end and nums[child] < nums[child+1]:
+            child = child+1
+        if nums[root] < nums[child]:
+            nums[root], nums[child] = nums[child], nums[root]
+            root = child
+        else:
+            break
+
+
+def heap_sort(nums):
+    for start in range((len(nums)-2)//2, -1, -1): 
+        flow_up(nums, start, len(nums)-1)
+
+    for end in range(len(nums)-1, 0, -1): 
+        nums[end], nums[0] = nums[0], nums[end]
+        flow_up(nums, 0, end-1)
+
+
+heap_sort(nums)
+print(nums)
+
+```
+
+#### 4 并排
+
+```python
+
+
+时间复杂度 logN
+
+空间复杂度 n
+
+nums = [5, 3, 10, 23, 12]
+            
+            
+def merge(left, right):
+    i, j = 0, 0
+    result = []
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result += left[i:]
+    result += right[j:]
+    return result
+
+
+def binary(nums):
+    if len(nums) <= 1:
+        return nums
+    else:
+        index = len(nums)//2
+        left = binary(nums[:index])
+        right = binary(nums[index:])
+        return merge(left, right)
+
+
+print(binary(nums))
+
+```
+
+#### 5 斐波纳挈 
+
+```python
+
+def fib(n):
+    a, b = 1, 0
+    i = 0
+    while i < n:
+        print(a)
+        a, b = a+b, a
+        i += 1
+
+
+fib(4)
+
+```
+
+#### 6 链表成对调换 
+
+```python
+
+class Node(object):
+
+    def __init__(self, value=None, node=None):
+        self.value = value
+        self.next = node
+        
+    
+root = Node(1, Node(2, Node(3, Node(4))))
+
+        
+def swap(node):
+    if node and node.next:
+        next_node = node.next
+        node.next = swap(next_node.next)
+        next_node.next = node
+        return next_node 
+    return node
+    
+
+new_root = swap(root)
+
+
+def display(node):
+    if node:
+        print(node.value)
+    if node and node.next:
+        display(node.next)
+
+
+display(new_root)
+
+```
+
+#### 7 单链表逆置 
+
+```python
+
+class Node(object):
+
+    def __init__(self, value=None, node=None):
+        self.value = value
+        self.next = node
+    
+        
+root = Node(1, Node(2, Node(3, Node(4))))
+        
+        
+def reverse(node):
+    if node:
+        pre = node
+        cur = node.next
+        pre.next = None
+        while cur:
+            tmp = cur.next
+            cur.next = pre
+            pre = cur
+            cur = tmp
+        return pre
+    else:
+        return node
+    
+        
+new_root = reverse(root)
+        
+
+def display(node):
+    if node:
+        print(node.value)
+    if node and node.next:
+        display(node.next)
+
+
+display(new_root)
+
+```
+
+#### 8 二叉树 
+
+```python
+
+class Node(object):
+
+    def __init__(self, value=None, left=None, right=None):
+        self.left = left
+        self.right = right
+        self.value = value
+        
+        
+root = Node(2, Node(1), Node(5))
+
+
+def display(node):
+    if node and node.left:
+        display(node.left)
+    if node and node.value:
+        print(node.value)
+    if node and node.right:
+        display(node.right)
+        
+
+display(root)
+
+```
+
+
 
 ### Mysql 
 
