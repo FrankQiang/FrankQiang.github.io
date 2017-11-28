@@ -1410,7 +1410,51 @@ loop.close()
 
 ### Algorithm 
 
+#### 冒泡
+
 ```python
+
+nums = [5, 3, 10, 23, 12]
+
+for i in range(len(nums)):
+    for j in range(i):
+        if nums[i] < nums[j]:
+            nums[i], nums[j] = nums[j], nums[i]
+print(nums)
+
+# [3, 5, 10, 12, 23]
+
+```
+
+#### 快排
+
+```python
+
+nums = [5, 3, 10, 23, 12]
+
+
+def move(nums, low, high):
+    i, j = low, low+1
+    while j <= high:
+        if nums[j] < nums[low]:
+            i += 1 
+            nums[i], nums[j] = nums[j], nums[i]
+        j += 1 
+    nums[low], nums[i] = nums[i], nums[low]
+    return i
+
+
+def quick_sort(nums, low, high):
+    if low < high:
+        index = move(nums, low, high)
+        quick_sort(nums, low, index-1)
+        quick_sort(nums, index+1, high)
+
+
+quick_sort(nums, 0, len(nums)-1)
+print(nums)
+
+# [3, 5, 10, 12, 23]
 
 ```
 
