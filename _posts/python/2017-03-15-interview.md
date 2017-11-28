@@ -1679,13 +1679,69 @@ display(root)
 
 ### Mysql 
 
+
+#### MyISAM 
+
 ```python
+
+适合于一些需要大量查询的应用，但其对于有大量写操作并不是很好
+
+甚至你只是需要update一个字段，整个表都会被锁起来，
+
+而别的进程，就算是读进程都无法操作直到读操作完成
+
+对于 SELECT COUNT(*) 这类的计算是超快无比的
 
 ```
 
-### Linux 
+#### InnoDB 
 
 ```python
+
+是一个非常复杂的存储引擎，对于一些小的应用，它会比 MyISAM 还慢
+
+他是它支持“行锁” ，于是在写操作比较多的时候，会更优秀
+
+InnoDB要求表必须有主键（MyISAM可以没有）
+
+不建议使用过长的字段作为主键，因为所有辅助索引都引用主索引，
+
+过长的主索引会令辅助索引变得过大
+
+```
+
+#### 常用命令 
+
+```python
+
+SELECT * FROM table_name
+
+SELECT column1,column2 FROM table_name
+
+INSERT INTO table_name VALUES (值1,值2,...)
+
+INSERT INTO table_name ( 列1,列2)  VALUES ( 值1,值2)
+
+UPDATE table_name SET column = new_value WHERE 条件
+
+DELETE FROM table_name WHERE 条件
+
+```
+
+
+
+### Linux 
+
+
+#### 常用命令 
+
+```python
+
+ps aux | grep  uwsgi
+
+可以看出主进程
+
+ps -ef | grep uwsgi
 
 ```
 
