@@ -132,20 +132,25 @@ matrix= [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 [[x for x in row if x % 3 == 0] for row in matrix if sum(row) >= 10]
 # [[6], [9]]
 
-map 代替列表推导
+
+```
+
+#### 函数式编程代替列表推导 
+
+```python
+
 a = [1, 2, 3, 4]
 
 b = map(lambda x: x**2, a)  # 惰性生成
 list(b)  # [1, 4, 9, 16]
 
-filter 代替列表推导
 a = [1, 2, 3, 4]
 
 b = filter(lambda x: x % 2 == 0, a)  # 惰性生成
 list(b)  # [2, 4]
 
-
 ```
+
 
 #### 5 Generator 
 
@@ -258,13 +263,22 @@ print('{:,}'.format(1234567890))
 * 位置参数 > 默认参数 > 可变参数 >  命名关键字参数 > 关键字参数
 
 
-位置参数
+```
+
+
+#### 位置参数
+
+```python
 
 def t(name):    # name 就是一个位置参数
     print(name)
 
+```
 
-默认参数
+
+#### 默认参数
+
+```python
 
 def t(name, age=18):  # age 就是一个默认参数
     print(name, age)
@@ -316,9 +330,13 @@ t("Jim")
 # Tom [76, 90]
 # Marsh [90]
 # Jim [90]
+
+```
  
 
-可变参数
+#### 可变参数
+
+```python
 
 def t(name, age=18, *args):  # 把 *args 称为可变参数
     print(name, age)         # 会把 78 83 95 转成一个 tuple (元组)
@@ -336,8 +354,12 @@ t("John", 18, *scores)
 # 78
 # 83
 
+```
 
-命名关键字参数
+
+#### 命名关键字参数
+
+```python
 
 必须需要一个或多个关键字参数
 
@@ -361,8 +383,12 @@ def t(name, age=18, *args, country, **kw):
 
 t("John", 18, 78, 83, country="China", gender="male")
 
+```
 
-关键字参数
+
+#### 关键字参数
+
+```python
 
 def t(name, age=18, *args, **kw):
     print(name, age)
@@ -389,7 +415,6 @@ t("John", 18, *scores, **others)
 # 78
 # 83
 # gender male
-
 
 ```
 
@@ -739,11 +764,14 @@ print(exam.english)
 
 ```python
 
-
 装饰器增强函数功能
 
+```
 
-不带参数的装饰器 
+
+#### 不带参数的装饰器 
+
+```python
 
 def log(func):
     @functools.wraps(func)
@@ -763,8 +791,12 @@ t()
 # Start
 # End
 
+```
 
-带参数的装饰器 
+
+#### 带参数的装饰器 
+
+```python
 
 def log(name):
     print(name)
@@ -789,8 +821,12 @@ t()
 # Start
 # End
 
+```
 
-同时支持两种方式
+
+#### 同时支持两种方式
+
+```python
 
 from functools import wraps, partial
 
@@ -827,9 +863,12 @@ print(add(3, 4))
 # ***add
 # 7
 
+```
 
-Class Decorator
 
+#### Class Decorator
+
+```python
 
 如果类的实例方法都需要同一种装饰器, 用类装饰器
 
@@ -1004,10 +1043,10 @@ m.t()
 
 #### 19 process 
 
+
+#### 启动一个子进程
+
 ```python
-
-
-启动一个子进程
 
 import os
 from multiprocessing import Process
@@ -1025,8 +1064,12 @@ if __name__ == "__main__":
     p.join()   # 等待子进程结束后再继续往下运行
     print("Child process end")
 
+```
 
-进程池
+
+#### 进程池
+
+```python
 
 import os
 import time
@@ -1067,8 +1110,12 @@ if __name__ == "__main__":
 # Task 4 runs 1.993635892868042 seconds
 # All subprocesses done
 
+```
 
-subprocess
+
+#### subprocess
+
+```python
 
 import subprocess
 
@@ -1082,10 +1129,9 @@ print(out.decode("utf-8"))
 
 #### 20 thread 
 
+#### 单个线程
+
 ```python
-
-
-单个线程
 
 from time import time
 
@@ -1106,8 +1152,12 @@ print(end-start)
 
 # 0.4892253875732422
 
+```
 
-多个线程
+
+#### 多个线程
+
+```python
 
 from time import time
 from threading import Thread
@@ -1143,8 +1193,12 @@ print(end-start)
 
 # 0.4903602600097656   因为GIl的原因无法真正并行计算
 
+```
 
-单线程处理阻塞式IO
+
+#### 单线程处理阻塞式IO
+
+```python
 
 from time import time
 from select import select
@@ -1162,8 +1216,12 @@ print(end-start)
 
 # 0.5008544921875
 
+```
 
-多线程处理阻塞式IO
+
+#### 多线程处理阻塞式IO
+
+```python
 
 from time import time
 from select import select
@@ -1189,9 +1247,12 @@ print(end-start)
 # 0.10056090354919434   处理阻塞式IO速度快5倍
 # Python 还有内置的 asyncio 模块来处理阻塞式IO
 
+```
 
-多线程之间数据竞争
 
+#### 多线程之间数据竞争
+
+```python
 
 from threading import Thread
 
@@ -1217,8 +1278,12 @@ print(num)
 
 # 1351674  期望是 2000000 
 
+```
 
-多线程用Lock避免数据竞争
+
+#### 多线程用Lock避免数据竞争
+
+```python
 
 from threading import Thread
 from threading import Lock
@@ -1252,10 +1317,10 @@ print(num)
 
 #### 21 queue 
 
+
+#### 在获取端阻塞
+
 ```python
-
-
-在获取端阻塞
 
 from queue import Queue
 from threading import Thread
@@ -1282,8 +1347,12 @@ print("Producer Done")
 # Consumer done
 # Producer Done
 
+```
 
-在添加端阻塞
+
+#### 在添加端阻塞
+
+```python
 
 from queue import Queue
 from threading import Thread
@@ -1316,8 +1385,12 @@ print("Producer done")
 # Consumer got 2
 # Producer done
 
+```
 
-追踪工作进度
+
+#### 追踪工作进度
+
+```python
 
 from queue import Queue
 from threading import Thread
