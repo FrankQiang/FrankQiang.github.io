@@ -905,7 +905,7 @@ class T(object):
     def b(self):
         print('b')
 
-	@classmethod    # Not wrapped
+    @classmethod    # Not wrapped
     def c(cls):
         print('c')
         
@@ -913,7 +913,7 @@ class T(object):
     def d():
         print('d')
 
-	@classmethod    
+    @classmethod    
     @debug
     def e(cls):
         print('c')
@@ -943,7 +943,7 @@ class T(object):
     def b(self):
         print('b')
 
-	@classmethod    # Not wrapped
+    @classmethod    # Not wrapped
     def c(cls):
         print('c')
         
