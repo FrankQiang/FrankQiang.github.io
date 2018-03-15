@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Interview 
+title: Static Initializers vs Instance Initializers vs Constructors 
 category: Java
 tags: Java
 keywords: Java
 ---
-
-### Static Initializers vs Instance Initializers vs Constructors
 
 ```java
 
