@@ -247,7 +247,7 @@ keywords: Mysql, 笔记
 
 **设置数据库编码**
 
-    CREATE DATABASE database_name DEFAULT CHARACTER SET utf8 DEFAULT COLLATE uft8_general_ci
+    CREATE DATABASE database_name DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci
 
 
 **修改数据库编码**
