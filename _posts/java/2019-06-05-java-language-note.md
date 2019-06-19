@@ -85,3 +85,17 @@ String theString = "This is a good day to code";
 byte[] bytes1 = theString.getBytes(); 用所在机器默认的编码 
 byte[] bytes2 = theString.getBytes(Charset.forName("UTF-8"); 指定编码
 ```
+
+* Constructor
+
+```java
+类没有构造函数, 编译器会默认创建一个无参构造函数
+
+类有参数构造函数后, 编辑器不会创建无参数构造函数, 需要自己手动创建无参数构造函数
+
+子类的对象实例时，默认会先调用父类的无参数的构造函数
+
+若父类未定义无参数构造函数，则在编译阶段报错。
+
+子类调用了父类的有参构造函数，则可以通过编译和运行。
+```
